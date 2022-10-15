@@ -1,0 +1,8 @@
+{
+  "name": "track-api",
+  "version": "1.0.0",
+  "description": "location streaming service with socketIO",
+  "main": "main.ts",
+  "author": "Yirbett Joseph",
+  "license": "MIT"
+}
