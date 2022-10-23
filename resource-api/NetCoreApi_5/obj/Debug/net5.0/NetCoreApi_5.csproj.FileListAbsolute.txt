@@ -67,7 +67,6 @@ C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\N
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\obj\Debug\net5.0\ref\NetCoreApi_5.dll
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\obj\Debug\net5.0\NetCoreApi_5.pdb
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\obj\Debug\net5.0\NetCoreApi_5.genruntimeconfig.cache
-C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\obj\Debug\net5.0\NetCoreApi_5.csproj.AssemblyReference.cache
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\Microsoft.CodeAnalysis.dll
@@ -142,3 +141,5 @@ C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\N
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
+C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\System.Web.Cors.dll
+C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
