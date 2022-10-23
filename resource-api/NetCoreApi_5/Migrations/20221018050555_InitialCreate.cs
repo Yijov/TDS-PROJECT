@@ -37,7 +37,7 @@ namespace NetCoreApi_5.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RolTblModel",
+                name: "RolModel",
                 columns: table => new
                 {
                     Id_Rol = table.Column<int>(type: "int", nullable: false)
@@ -321,7 +321,7 @@ namespace NetCoreApi_5.Migrations
                 name: "TravelModel");
 
             migrationBuilder.DropTable(
-                name: "RolTblModel");
+                name: "RolModel");
 
             migrationBuilder.DropTable(
                 name: "RoadModel");

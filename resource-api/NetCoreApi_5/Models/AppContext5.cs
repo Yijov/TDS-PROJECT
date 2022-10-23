@@ -15,7 +15,7 @@ namespace NetCoreApi_5.Models
         }
 
         public DbSet<UserModel> UserModel { get; set; }
-        public DbSet<RolModel> RolTblModel { get; set; }
+        public DbSet<RolModel> RolModel { get; set; }
         public DbSet<RoadModel> RoadModel { get; set; }
         public DbSet<PositionModel> PositionModel { get; set; }
         public DbSet<TravelModel> TravelModel { get; set; }
