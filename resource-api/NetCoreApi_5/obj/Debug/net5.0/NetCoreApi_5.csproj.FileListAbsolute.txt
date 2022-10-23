@@ -143,3 +143,4 @@ C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\N
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\System.Web.Cors.dll
 C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\admin\Desktop\7mo_Cuatrimestre\Plan_TDS\Repo\TDS-PROJECT\resource-api\NetCoreApi_5\obj\Debug\net5.0\NetCoreApi_5.csproj.AssemblyReference.cache

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreApi_5.Models;
+using NetCoreApi_5.ModelsApi;
 
 namespace NetCoreApi_5.Controllers
 {
@@ -24,36 +25,60 @@ namespace NetCoreApi_5.Controllers
 
         // GET: api/TravelModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TravelModel>>> GetTravelModel()
+        public async Task<ActionResult<IEnumerable<TravelModelApi>>> GetTravelModel()
         {
-            return await _context.TravelModel.ToListAsync();
+            return await _context.TravelModel.Select(model => new TravelModelApi() 
+            { 
+            
+                Id_Tavel = model.Id_Tavel,
+                Id_Road = model.Id_Road,
+                Id_User = model.Id_User,
+                Time = model.Time,
+            
+            }).ToListAsync();
         }
 
         // GET: api/TravelModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TravelModel>> GetTravelModel(int id)
+        public async Task<ActionResult<TravelModelApi>> GetTravelModel(int id)
         {
             var travelModel = await _context.TravelModel.FindAsync(id);
 
-            if (travelModel == null)
+            var _travelModel = travelModel != null ? new TravelModelApi() 
+            {
+                Id_Tavel = travelModel.Id_Tavel,
+                Id_Road = travelModel.Id_Road,
+                Id_User = travelModel.Id_User,
+                Time = travelModel.Time,
+            } : null;
+
+            if (_travelModel == null)
             {
                 return NotFound();
             }
 
-            return travelModel;
+            return _travelModel;
         }
 
         // PUT: api/TravelModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTravelModel(int id, TravelModel travelModel)
+        public async Task<IActionResult> PutTravelModel(int id, TravelModelApi travelModel)
         {
             if (id != travelModel.Id_Tavel)
             {
                 return BadRequest();
             }
 
-            _context.Entry(travelModel).State = EntityState.Modified;
+            TravelModel data = new TravelModel()
+            {
+                Id_Tavel = travelModel.Id_Tavel,
+                Id_Road = travelModel.Id_Road,
+                Id_User = travelModel.Id_User,
+                Time = travelModel.Time,
+            }; 
+
+            _context.Entry(data).State = EntityState.Modified;
 
             try
             {
@@ -77,10 +102,20 @@ namespace NetCoreApi_5.Controllers
         // POST: api/TravelModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TravelModel>> PostTravelModel(TravelModel travelModel)
+        public async Task<ActionResult<TravelModelApi>> PostTravelModel(TravelModelApi travelModel)
         {
-            _context.TravelModel.Add(travelModel);
+
+            TravelModel data = new TravelModel() 
+            {
+                Id_Tavel = travelModel.Id_Tavel,
+                Id_Road = travelModel.Id_Road,
+                Id_User = travelModel.Id_User,
+                Time = travelModel.Time,
+            };
+
+            _context.TravelModel.Add(data);
             await _context.SaveChangesAsync();
+            travelModel.Id_Tavel = data.Id_Tavel;
 
             return CreatedAtAction("GetTravelModel", new { id = travelModel.Id_Tavel }, travelModel);
         }

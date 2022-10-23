@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreApi_5.Models;
+using NetCoreApi_5.ModelsApi;
 
 namespace NetCoreApi_5.Controllers
 {
@@ -24,36 +25,52 @@ namespace NetCoreApi_5.Controllers
 
         // GET: api/RolModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RolModel>>> GetRolModel()
+        public async Task<ActionResult<IEnumerable<RolModelApi>>> GetRolModel()
         {
-            return await _context.RolModel.ToListAsync();
+            return await _context.RolModel.Select(model => new RolModelApi() 
+            { 
+                Id_Rol = model.Id_Rol,
+                Description = model.Description,
+            }).ToListAsync();
         }
 
         // GET: api/RolModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RolModel>> GetRolModel(int id)
+        public async Task<ActionResult<RolModelApi>> GetRolModel(int id)
         {
             var rolModel = await _context.RolModel.FindAsync(id);
 
-            if (rolModel == null)
+            var _rolModel = rolModel != null ? new RolModelApi() 
+            { 
+                Id_Rol = rolModel.Id_Rol,
+                Description = rolModel.Description,
+            } : null;
+
+            if (_rolModel == null)
             {
                 return NotFound();
             }
 
-            return rolModel;
+            return _rolModel;
         }
 
         // PUT: api/RolModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRolModel(int id, RolModel rolModel)
+        public async Task<IActionResult> PutRolModel(int id, RolModelApi rolModel)
         {
             if (id != rolModel.Id_Rol)
             {
                 return BadRequest();
             }
 
-            _context.Entry(rolModel).State = EntityState.Modified;
+            RolModel data = new RolModel()
+            {
+                Id_Rol = rolModel.Id_Rol,
+                Description = rolModel.Description,
+            };
+
+            _context.Entry(data).State = EntityState.Modified;
 
             try
             {
@@ -77,10 +94,18 @@ namespace NetCoreApi_5.Controllers
         // POST: api/RolModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RolModel>> PostRolModel(RolModel rolModel)
+        public async Task<ActionResult<RolModelApi>> PostRolModel(RolModelApi rolModel)
         {
-            _context.RolModel.Add(rolModel);
+
+            RolModel data = new RolModel()
+            {
+                Id_Rol = rolModel.Id_Rol,
+                Description = rolModel.Description,
+            }; 
+
+            _context.RolModel.Add(data);
             await _context.SaveChangesAsync();
+            rolModel.Id_Rol = data.Id_Rol;
 
             return CreatedAtAction("GetRolModel", new { id = rolModel.Id_Rol }, rolModel);
         }

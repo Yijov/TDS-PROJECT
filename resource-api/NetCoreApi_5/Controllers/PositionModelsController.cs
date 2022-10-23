@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreApi_5.Models;
+using NetCoreApi_5.ModelsApi;
 
 namespace NetCoreApi_5.Controllers
 {
@@ -24,36 +25,61 @@ namespace NetCoreApi_5.Controllers
 
         // GET: api/PositionModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PositionModel>>> GetPositionModel()
+        public async Task<ActionResult<IEnumerable<PositionModelApi>>> GetPositionModel()
         {
-            return await _context.PositionModel.ToListAsync();
+            return await _context.PositionModel.Select(model => new PositionModelApi 
+            { 
+                Id_Position = model.Id_Position,
+                Lat = model.Lat,
+                Log = model.Log,
+                Time = model.Time,
+                Id_Travel = model.Id_Travel,
+            }).ToListAsync();
         }
 
         // GET: api/PositionModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PositionModel>> GetPositionModel(int id)
+        public async Task<ActionResult<PositionModelApi>> GetPositionModel(int id)
         {
             var positionModel = await _context.PositionModel.FindAsync(id);
 
-            if (positionModel == null)
+            var _positionModel = positionModel != null ? new PositionModelApi()
+            {
+                Id_Position = positionModel.Id_Position,
+                Lat = positionModel.Lat,
+                Log = positionModel.Log,
+                Time = positionModel.Time,
+                Id_Travel = positionModel.Id_Travel,
+            } : null;
+
+            if (_positionModel == null)
             {
                 return NotFound();
             }
 
-            return positionModel;
+            return _positionModel;
         }
 
         // PUT: api/PositionModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPositionModel(int id, PositionModel positionModel)
+        public async Task<IActionResult> PutPositionModel(int id, PositionModelApi positionModel)
         {
             if (id != positionModel.Id_Position)
             {
                 return BadRequest();
             }
 
-            _context.Entry(positionModel).State = EntityState.Modified;
+            PositionModel data = new PositionModel()
+            {
+                Id_Position = positionModel.Id_Position,
+                Lat = positionModel.Lat,
+                Log = positionModel.Log,
+                Time = positionModel.Time,
+                Id_Travel = positionModel.Id_Travel,
+            };
+
+            _context.Entry(data).State = EntityState.Modified;
 
             try
             {
@@ -77,11 +103,21 @@ namespace NetCoreApi_5.Controllers
         // POST: api/PositionModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PositionModel>> PostPositionModel(PositionModel positionModel)
+        public async Task<ActionResult<PositionModelApi>> PostPositionModel(PositionModelApi positionModel)
         {
-            _context.PositionModel.Add(positionModel);
+            PositionModel data = new PositionModel()
+            {
+                Id_Position = positionModel.Id_Position,
+                Lat = positionModel.Lat,
+                Log = positionModel.Log,
+                Time = positionModel.Time,
+                Id_Travel = positionModel.Id_Travel,
+            };
+
+            _context.PositionModel.Add(data);
             await _context.SaveChangesAsync();
 
+            positionModel.Id_Position = data.Id_Position;
             return CreatedAtAction("GetPositionModel", new { id = positionModel.Id_Position }, positionModel);
         }
 
