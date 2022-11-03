@@ -13,6 +13,9 @@ import 'dart:developer' as developer;
 
 import 'package:tds_project_mobile/utils/dbHelper.dart';
 
+import '../../utils/blocClass.dart';
+import '../navBar/navBar.dart';
+
 const darkBlueColor = Color(0xff486579);
 
 class Map extends StatefulWidget {
@@ -42,8 +45,9 @@ class _Map extends State<Map> {
   var locationMsg;
   late final Position lastPosition;
 
-  void getCurrentLocation() async{
-              lastPosition = (await Geolocator.getLastKnownPosition())!;
+  Future<void> getCurrentLocation(var geoLoc) async{
+              //lastPosition = (await Geolocator.getLastKnownPosition())!;
+        lastPosition = geoLoc;
         _lat = lastPosition.latitude.toString();
         _log = lastPosition.longitude.toString();
         setState(() {
@@ -61,6 +65,18 @@ class _Map extends State<Map> {
   //late GoogleMapController _ctrlGoogleMap;
   Marker? _origin;
   Marker? _destination;
+  bool _isLoading = false;
+
+  dataLoadFunction() async
+  {
+    setState(() {
+      _isLoading = true;
+    });
+    await getCurrentLocation(await _determinePosition());
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   void dispose() {
@@ -76,9 +92,7 @@ class _Map extends State<Map> {
 
       _connectivitySubscription =
           _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-      _determinePosition();
-      getCurrentLocation();
-      //_locationMap = Location.ct;
+      dataLoadFunction();
     });
   }
 
@@ -89,6 +103,7 @@ class _Map extends State<Map> {
     return WillPopScope(
       onWillPop: () async
       {
+        Code.backAction(context, EventMap(), 2);
         return re;
       },
       child: Scaffold(
@@ -101,13 +116,15 @@ class _Map extends State<Map> {
               ),
             ),
           ),
-          leading: GestureDetector(
+         /* leading: GestureDetector(
             child: Icon( Icons.keyboard_arrow_left_rounded, color: Colors.white ),
             onTap: () {}
-          ) ,
+          ) ,*/
           automaticallyImplyLeading: true,
         ),
-        body:
+        drawer: navBar(),
+        body: _isLoading != false ?
+            Circular() :
         Card(
           clipBehavior: Clip.antiAlias,
           child: Column(
@@ -238,8 +255,8 @@ class _Map extends State<Map> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-
-    return await Geolocator.getCurrentPosition();
+    await Geolocator.getCurrentPosition();
+    return (await Geolocator.getLastKnownPosition())!;
   }
 
   _showAlert(String titulo, String msj)
@@ -286,6 +303,13 @@ class _Map extends State<Map> {
       default:
         break;
     }
+  }
+
+  Circular()
+  {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
 }

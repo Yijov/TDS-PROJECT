@@ -39,6 +39,20 @@ class road
 
   road._();
 
+  road
+      (
+          int Id_Road,
+          int? Id_User,
+          String Description,
+          String Schedule,
+      )
+  {
+    this.Id_Road = Id_Road;
+    this.Id_User = Id_User;
+    this.Description = Description;
+    this.Schedule = Schedule;
+  }
+
   static List<road> passList = [];
   static road pass = road._();
   static road ct = road._();

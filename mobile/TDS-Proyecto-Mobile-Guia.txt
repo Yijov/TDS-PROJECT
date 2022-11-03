@@ -1,0 +1,64 @@
+Usuario estudiante
+Login
+  > Listado de rutas
+	> Mapa
+----------------------
+Usuario autoBus
+Login
+  > Activar viaje
+  > desactivar viaje
+---------------
+Login, obtiene el token listo
+Puede ver la rutas selecciona de pasa al webSocket
+-------------
+
+Al ir al mapa con la ruta determina le calcule la distacia entre el chofer el estudiante
+Como opcional los puntos de parada en el mapa
+Para el login conectar con el api y esperar el toke, puede proceder
+Cuando el pulse una ruta una comunicacion con el webSocket
+Mejor interfaz con colores azulados e iconos representativos
+Algun que otro control de errores.
+
+
+  google_maps_flutter: ^2.1.2
+  sqflite: ^2.0.2
+  path_provider: ^2.0.9
+  location: ^4.4.0
+  geolocator: ^8.2.0
+  android_intent: ^2.0.2
+  http: ^0.13.4
+  flutter_bloc: ^8.0.1
+  meta: ^1.7.0
+  device_info_plus: ^3.2.3
+  share_plus: ^4.0.4
+  connectivity_plus: ^2.3.6
+  web_socket_channel: ^2.2.0
+
+-----------------------------
+
+
+    public class PositionModel
+    {
+        [Key]
+        public int Id_Position { get; set; }
+
+        [Column(TypeName = "Decimal(17,15)")]
+        public double Lat { get; set; }
+
+        [Column(TypeName = "Decimal(17,15)")]
+        public double Log { get; set; }
+
+        [Column(TypeName = "DateTime")]
+        public DateTime? Time { get; set; }
+
+        [Display(Name = "Travel")]
+        public virtual int? Id_Travel { get; set; }
+
+        [ForeignKey("Id_Travel")]
+        public virtual TravelModel Users { get; set; }
+    }
+
+
+
+
+

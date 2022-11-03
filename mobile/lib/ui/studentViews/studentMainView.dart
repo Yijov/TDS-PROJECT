@@ -14,6 +14,7 @@ import '../../models/road.dart';
 import '../../utils/Code.dart';
 import '../../utils/blocClass.dart';
 import '../../utils/dbHelper.dart';
+import '../navBar/navBar.dart';
 
 const darkBlueColor = Color(0xff486579);
 
@@ -30,14 +31,11 @@ class _pageStudentListViewState extends State<pageStudentListView> {
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-
-
   bool up = false;
 
   TextEditingController _textFieldController = TextEditingController();
 
   DataBaseHelper _dbHelper = DataBaseHelper.instance;
-
 
 
   List<Icon> leadList =
@@ -61,7 +59,7 @@ class _pageStudentListViewState extends State<pageStudentListView> {
 
   int currentIcon = 0;
 
-  String titulo = "Cambio/Inst. Medidores";
+  String titulo = "Tipos de Trabajos";
   double _divAltura = 15.0;
 
   dataLoadFunction() async {
@@ -101,6 +99,8 @@ class _pageStudentListViewState extends State<pageStudentListView> {
     return WillPopScope(
       onWillPop: () async
       {
+        //  cd.changeBloc(46);
+        //context.read<MyBloc>().add(EventListTypeSurvey());
         return re;
       },
       child: Scaffold(
@@ -114,35 +114,15 @@ class _pageStudentListViewState extends State<pageStudentListView> {
                 ),
               )
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // method to show the search bar
-                showSearch(
-                    context: context,
-                    // delegate to customize the search bar
-                    delegate: CustomSearchDelegate()
-                );
-              },
-              icon: const Icon(Icons.search),
-            )
-          ],
           automaticallyImplyLeading: true,
-          leading: GestureDetector(
-            onTap: () async {
-            },
-            child: Icon(Icons.upload_rounded),
-          ),
         ),
-        //drawer: navBar(),
-        body: _isLoading
-            ? Center(
-            child: Container(
-                child: CircularProgressIndicator()
-            ) ): Center(
+        drawer: navBar(),
+        body: Center(
           child: Column(
             children: <Widget>[
-              _List_2([],_iconsList[currentIcon]),
+              //_List(),
+              //_ListView_2(),
+              _ListTile_2(context),
             ],
           ),
         ),
@@ -150,48 +130,83 @@ class _pageStudentListViewState extends State<pageStudentListView> {
     );
   }
 
-  onSubmit() async
-  {
-    Code.submit = true;
+  List<Icon> _listType =
+  [
+    Icon(Icons.bubble_chart, //posicion 0
+      color: darkBlueColor,
+      size: 35,),
 
-    //await dataLoadFunction();
-    //cd.changeBloc(1);
-    //context.read<MyBloc>().add(EventMeasureInstallation());
-    Code.submit = false;
-  }
+    Icon(Icons.bubble_chart, //posicion 0
+      color: darkBlueColor,
+      size: 35,),
 
-  _List_2( List<road> datos, Icon iconCurrent) => Expanded(
-    child: Container(
-      child: ListView.builder(
-        //reverse: true,
-        itemBuilder: (BuildContext, index){
-          int rindex = datos.length - 1 - index;
-          var data = datos[rindex];
-          return Container(
-            margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
-            child: Column(
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(15, 8, 15, 4),
-                  leading: Icon(Icons.add_business),
-                  title: Text('Relleno'),
-                  subtitle: Text("Info extra: "),
-                  trailing: Icon(Icons.keyboard_arrow_left_rounded),
-                  onTap: () async {
+    Icon(Icons.bubble_chart, //posicion 0
+      color: darkBlueColor,
+      size: 35,),
+  ];
 
-                  },
-                ),
-                Code.getDivider(),
-              ],
-            ),
-          );
-        },
-        itemCount: datos.length,
-      ),
+  Icon back = Icon(Icons.keyboard_arrow_right_rounded,
+  color: darkBlueColor);
+
+  var event = EventMap();
+  var num = 2;
+
+  List<String> _tipo =
+  [
+    'Charles de Gaulle', //0
+    '27 de Febrero', //1
+    'Institucion', //2
+  ];
+
+  String subTitle = "Ruta";
+
+  List<bool> eneList =
+  [
+    true,
+    true,
+    true,
+  ];
+
+  _ListTile_2(BuildContext context) => Expanded(
+    child: ListView(
+        children:
+        [
+          _getCard(_tipo[0], subTitle, back, 20, 20, 20, 0, event,num,_listType[0], eneList[0]),
+          Code.getDivider(),
+          _getCard(_tipo[1], subTitle, back, 20, 0, 20, 0, event,num,_listType[1], eneList[1]),
+          Code.getDivider(),
+          _getCard(_tipo[1], subTitle, back, 20, 0, 20, 0, event,num,_listType[2], eneList[2]),
+          Code.getDivider(),
+        ]
     ),
   );
 
-  Code cd = new Code();
+  _getCard(String Titulo,String Subtitulo, Icon icon, double izq, double arriba, double der, double abajo, MyEvent wget, int num, Icon lead,bool enabled)
+  => Container(
+    //color: Colors.white,
+    margin:  EdgeInsets.fromLTRB(izq, arriba, der, abajo),
+    child: ListTile(
+      leading: lead,
+      title: Text(Titulo.toUpperCase(),
+        style: TextStyle(
+          color: darkBlueColor,
+          fontWeight: FontWeight.bold,),
+      ),
+      subtitle: Text(Subtitulo),
+      trailing: icon,
+      onTap: ()
+      {
+        if(enabled != false)
+        {
+          Code.backAction(context, wget, num);
+        }
+        else
+        {
+          _showAlert('AVISO', 'Página en construcción.');
+        }
+      },
+    ),
+  );
 
   _showAlert(String title, String msj) {
     AlertDialog alertDialog = AlertDialog(
@@ -242,129 +257,5 @@ class _pageStudentListViewState extends State<pageStudentListView> {
     }
   }
 
-}
-
-///Searchbar...
-class CustomSearchDelegate extends SearchDelegate{
-
-  DataBaseHelper _dbHelper = DataBaseHelper.instance;
-
-  final List<String> listDescription = Code.listSearch;
-
-  List<Icon> iconList =
-  [
-    Icon(Icons.plumbing_rounded,
-        color: darkBlueColor,
-        size: 35.0),
-
-    Icon(Icons.plumbing_rounded,
-        color: Colors.green.shade600,
-        size: 35.0),
-  ];
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    return ThemeData(
-      hintColor: Colors.white,
-      inputDecorationTheme: InputDecorationTheme(
-        border: InputBorder.none,
-      ),
-      accentColor: Colors.white, // for the green line
-      scaffoldBackgroundColor: Colors.grey.shade100, // for the body color
-      brightness: Brightness.dark, // to get white statusbar icons
-      //primaryColor:  , // set background color of SearchBar
-      appBarTheme: const AppBarTheme(
-        color: Colors.green, // affects AppBar's background color
-        textTheme: TextTheme(
-          headline6: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext){
-    return [
-      IconButton(
-          icon: const Icon(Icons.clear, size: 20,),
-          onPressed:(){
-            query ='';
-          }
-      )
-    ];
-  }
-
-  @override
-  IconButton buildLeading (BuildContext context){
-    return IconButton(
-        icon: const Icon(Icons.keyboard_arrow_left_rounded),
-        onPressed: (){
-          close(context, null);
-        }
-    );
-  }
-
-  @override
-  ListView buildResults(BuildContext){
-    List<String> matchQuery = [];
-    for(var fruit in listDescription){
-      if(fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index){
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-          onTap: (){
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  ListView buildSuggestions(BuildContext){
-    List<String> matchQuery = [];
-    for(var fruit in listDescription){
-      if(fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context,index){
-          var description = matchQuery[index];
-          return Container(
-            margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
-            child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.keyboard_arrow_left_rounded),
-                    contentPadding: EdgeInsets.fromLTRB(15, 8, 15, 4),
-                    title: Text(description,
-                      style: TextStyle(
-                          color: darkBlueColor,
-                          fontWeight: FontWeight.bold),),
-                    subtitle: Text('Nuevo medidor: '),
-                    trailing: Icon(Icons.keyboard_arrow_right_rounded,
-                      color: Colors.green,
-                      size: 25,),
-                    onTap: () async {
-
-                    },
-                  ),
-                  Code.getDivider(),
-                ]
-            ),
-          );
-        }
-    );
-  }
   Code cd = new Code();
 }
