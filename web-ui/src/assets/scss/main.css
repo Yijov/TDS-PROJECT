@@ -38,6 +38,7 @@ time, mark, audio, video {
 
 body {
   background-color: #e6e6ff;
+  font-family: Helvetica, sans-serif;
 }
 
 .map {
@@ -46,6 +47,24 @@ body {
 
 .userSearchPannel {
   height: 91vh;
+}
+
+.top-nav {
+  background-color: #005580;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.header-logo {
+  width: 2.3rem;
+  height: 2.3rem;
+  margin: 1rem;
+}
+
+.log-out-icon {
+  cursor: pointer;
 }
 
 .auth {
@@ -74,6 +93,13 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.auth-logo {
+  width: 100px;
+  height: 100px;
+  margin: 5rem;
+  opacity: 0.9;
 }
 
 .home {

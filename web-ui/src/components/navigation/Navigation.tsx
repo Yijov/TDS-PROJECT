@@ -1,10 +1,17 @@
 import React from "react";
+import { BsFillArrowRightSquareFill } from "react-icons/bs";
+import logo from "../../assets/images/logo.png"
+
 
 const Navigation = () => {
   return (
-    <div className="row align-items-center p-2  bg-primary">
-      <p className="text-white col-11 p-1">[LOGO] APP NAME</p>
-      <p className="text-white col-1 p-1">LOGOUT</p>
+    <div className="top-nav row align-items-center">
+      <p className="logo text-white col-11 p-1 fs-4 d-flex align-items-center">
+        <img src={logo} alt="Logo" className="header-logo" /> TDS-TRACKER
+      </p>
+      <p className="log-out-icon text-white col-1 pr-1 fs-3 d-flex justify-content-end">
+        <BsFillArrowRightSquareFill />
+      </p>
     </div>
   );
 };
