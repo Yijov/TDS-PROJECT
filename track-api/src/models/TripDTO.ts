@@ -1,6 +1,6 @@
-export default interface TripDTO{
-    tripId:number,
-    from:string,
-    to:string,
-    routeId:number,
+export default interface TripDTO {
+  tripId: number;
+  from: string;
+  to: string;
+  routeId: number;
 }

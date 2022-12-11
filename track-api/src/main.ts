@@ -25,11 +25,13 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 io.on(EVENTS.CONNECTION, (socket: Socket) => {
+  socket.on("test", (name) => console.log("hey klk " + name));
+
   socket.on(EVENTS.TRIP_START, (tripDto: TripDTO) => {
     //add  tripp dto in memory
     try {
       TrackingCache.StartTrip(tripDto);
-      io.to(socket.id).emit(EVENTS.TRIP_END_SUCCESS);
+      io.to(socket.id).emit(EVENTS.TRIP_START_SUCCESS);
     } catch (error) {
       io.to(socket.id).emit(EVENTS.TRIP_START_FAILED);
     }
