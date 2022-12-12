@@ -1,9 +1,15 @@
+import env from "dotenv";
+env.config();
 import { Request, Response } from "express";
 import Position from "./models/Position";
 import EVENTS from "./events";
 import Tracker from "./models/Tracker";
 import TripDTO from "./models/TripDTO";
 import { Socket } from "socket.io";
+import router from "./router/Router";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
+import ErrorHandler from "./utils/ErrorHandler";
 
 const cors = require("cors");
 const express = require("express");
@@ -12,6 +18,8 @@ const http = require("http");
 const server = http.createServer(app);
 const socketIO = require("socket.io");
 const TrackingCache: Tracker = new Tracker();
+const PORT = process.env.PORT;
+const NODE_ENV = process.env.NODE_ENV;
 const io = socketIO(server, {
   cors: {
     origin: "*",
@@ -20,10 +28,12 @@ const io = socketIO(server, {
 });
 
 app.use(cors("*"));
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({ success: true });
-});
+app.use("/api/v1", router);
 
 io.on(EVENTS.CONNECTION, (socket: Socket) => {
   socket.on(EVENTS.PING, (data: string) => io.to(socket.id).emit(EVENTS.PONG, data));
@@ -64,6 +74,9 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
   });
 });
 
-server.listen(process.env.PORT || 3011, () => {
-  console.log("Now listening");
+app.use("*", ErrorHandler.NotFoundRouteHandler);
+app.use(ErrorHandler.ExeptionHandler);
+
+server.listen(PORT, () => {
+  NODE_ENV === "development" ? console.log("Now listening on port " + PORT) : console.log("Now listening");
 });
