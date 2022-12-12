@@ -1,0 +1,23 @@
+
+###
+GET https://tds-tracker-production.onrender.com/api/v1/auth
+content-type: application/json
+
+###
+POST https://tds-tracker-production.onrender.com/api/v1/auth
+content-type: application/json
+
+{
+    "email": "yirbett@gmail.com",
+    "password": "admin"
+}
+
+
+###
+POST https://tds-tracker-production.onrender.com/api/v1/auth
+content-type: application/json
+
+{
+    "email": "wrong",
+    "password": "wrong"
+}
