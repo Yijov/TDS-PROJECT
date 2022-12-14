@@ -1,7 +1,9 @@
 const EVENTS = {
   CONNECTION: "connection",
   UPDATE: "update",
-  UPDATE_POSITION_FAILED: "opdate_position_failed",
+  PING: "ping",
+  PONG: "pong",
+  UPDATE_POSITION_FAILED: "update_position_failed",
   TRIP_START: "start_trip",
   TRIP_START_SUCCESS: "trip_started",
   TRIP_START_FAILED: "trip_start_failed",

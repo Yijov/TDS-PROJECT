@@ -1,4 +1,4 @@
 export default interface IAuthCredentials {
-  usuario: string;
+  email: string;
   password: string;
 }

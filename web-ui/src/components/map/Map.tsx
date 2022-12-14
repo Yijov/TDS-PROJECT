@@ -1,25 +1,30 @@
-import React, { useEffect } from "react";
-import { io } from "socket.io-client";
-import EVENTS from "../../constants/events";
-import Trip from "../../models/Trip";
+import React from "react";
+import GoogleMapReact from "google-map-react";
 
-const Map = () => {
-  const socket = io("http://localhost:3011/");
+const AnyReactComponent: React.FC<{ text: string; lat: number; lng: number }> = ({ text }) => <div>{text}</div>;
 
-  const testEmit = () => {
-    socket.emit("test", "carlos");
+export default function Map() {
+  const defaultProps = {
+    center: {
+      lat: 	18.5090163,
+      lng: -69.8561,
+    },
+    zoom: 11.5,
   };
-  useEffect(() => {
-    socket.on(EVENTS.UPDATE, (trips: Trip[]) => {
-      console.log("app");
-    });
-  }, []);
 
   return (
-    <div className="map m-1 bg-info col-8">
-      <button onClick={testEmit}>TEST</button>
+    // Important! Always set the container height explicitly
+    <div  style={{ height: "65vh", width: "75%", marginTop:"2rem" }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: "AIzaSyBKMV5ijv9Y3euwLYLKp0xu1t1k6ziivCQ" }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+      >
+        <AnyReactComponent lat={18.4498609} lng={-69.9772554} text="My Marker" />
+        
+      </GoogleMapReact>
     </div>
   );
-};
+}
 
-export default Map;
+//
