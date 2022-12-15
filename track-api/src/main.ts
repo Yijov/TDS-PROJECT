@@ -38,17 +38,25 @@ app.use(cookieParser());
 app.use("/api/v1", router);
 
 io.on(EVENTS.CONNECTION, (socket: Socket) => {
-  console.log(socket.id + "has conected");
+  console.log(socket.id + " has conected");
+  io.to(socket.id).emit(EVENTS.UPDATE, TrackingCache.Track());
+
+  socket.on(EVENTS.GET_STATE, async () => {
+    let response = TrackingCache.Track();
+    io.to(socket.id).emit(EVENTS.UPDATE, response);
+  });
 
   socket.on(EVENTS.PING, (data: string) => {
     io.to(socket.id).emit(EVENTS.PONG, data);
   });
 
-  socket.on(EVENTS.TRIP_START, (tripDto: TripDTO) => {
+  socket.on(EVENTS.TRIP_START, async (tripDto: TripDTO) => {
     //add  tripp dto in memory
     try {
       TrackingCache.StartTrip(tripDto);
       io.to(socket.id).emit(EVENTS.TRIP_START_SUCCESS);
+      let response = await TrackingCache.Track();
+      socket.broadcast.emit(EVENTS.UPDATE, response);
     } catch (error) {
       io.to(socket.id).emit(EVENTS.TRIP_START_FAILED, error);
     }
