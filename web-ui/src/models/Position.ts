@@ -1,7 +1,7 @@
-interface Position{
-    tripId:number, 
-    lat:string, 
-    lon:string
+interface Position {
+  tripId: number;
+  lat: number;
+  lon: number;
 }
 
 export default Position;

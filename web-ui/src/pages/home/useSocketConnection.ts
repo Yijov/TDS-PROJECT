@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
 import Trip from "../../models/Trip";
+import TripDTO from "../../models/TripDTO";
 import EVENTS from "../../constants/events";
 import socket from "../../connections/WSocket";
 
 export interface ISocketState {
-  trips: Trip[];
+  trips: TripDTO[];
   error: string;
 }
 const useSocketConnection = () => {
   const [socketState, setSocketState] = useState<ISocketState>({ trips: [], error: "" });
-  const handleUpdate = (response: Trip[]) => {
+  const handleUpdate = (response: TripDTO[]) => {
     setSocketState({ ...socketState, trips: response });
   };
 
@@ -27,7 +27,7 @@ const useSocketConnection = () => {
   };
 
   useEffect(() => {
-    socket.on(EVENTS.UPDATE, (reponse: Trip[]) => handleUpdate(reponse));
+    socket.on(EVENTS.UPDATE, (reponse: TripDTO[]) => handleUpdate(reponse));
     socket.on(EVENTS.TRIP_END_FAIL, () => HandSetError("Operación fallida, porfavor intente mas tarde"));
     socket.on(EVENTS.PONG, (data: string) => console.log(data));
     return function cleanup() {

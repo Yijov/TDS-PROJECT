@@ -1,13 +1,8 @@
-import react, { useState, useEffect } from "react";
-import Axios, { AxiosError } from "axios";
-import ResourceAPI from "../../connections/api_connection/ResourceAPI";
-import IAuthCredentials from "../../models/authCredentials";
+import { useState, useEffect } from "react";
+import Axios from "axios";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 import APP_CONSTANTS from "../../constants/consts";
-import IAPIResponse from "./../../connections/api_connection/IAPIReaponse";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-
-Axios.defaults.withCredentials = true;
 
 const useAuth = () => {
   // autho state
@@ -16,8 +11,6 @@ const useAuth = () => {
   const Navigate = useNavigate();
 
   const cookies = new Cookies();
-
-  const Api = new ResourceAPI();
 
   //vaidate if user is loged in
   const VALIDATE_SIGNED_IN = async () => {
@@ -32,9 +25,13 @@ const useAuth = () => {
 
   //log out function
   const SIGNOUT = async (e: React.MouseEvent) => {
-    if (window.confirm("¿Are you sure that you are loging out?")) {
-      const response = await Api.GET_SIGNOUT();
-      setAuthState(false);
+    if (window.confirm("¿Do you wish to log out?")) {
+      try {
+        await Axios.get(APP_CONSTANTS.TRACk_API_URI_AUTH);
+        setAuthState(false);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

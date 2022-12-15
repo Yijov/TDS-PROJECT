@@ -1,7 +1,7 @@
 import Position from "./Position";
 export default interface TripDTO {
   tripId: number;
-  route: number;
+  route: string;
   from: string;
   position: Position;
   to: string;

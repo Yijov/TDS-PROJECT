@@ -1,11 +1,9 @@
 import react, { useState, useEffect } from "react";
 import Axios, { AxiosError } from "axios";
-import ResourceAPI from "../../connections/api_connection/ResourceAPI";
 import IAuthCredentials from "../../models/authCredentials";
 import Cookies from "universal-cookie";
-import APP_CONSTANTS from "../../constants/consts";
-import IAPIResponse from "./../../connections/api_connection/IAPIReaponse";
 import { useNavigate } from "react-router-dom";
+import APP_CONSTANTS from "../../constants/consts";
 
 Axios.defaults.withCredentials = true;
 
@@ -25,10 +23,6 @@ const useAuth = () => {
 
   const cookies = new Cookies();
 
-  const Api = new ResourceAPI();
-
-  const AUTH_API_URI = APP_CONSTANTS.TRACk_API_URI_AUTH;
-
   //vaidate if user is loged in
   const VALIDATE_SIGNED_IN = async () => {
     const LogToken = await cookies.get("LogToken");
@@ -43,8 +37,12 @@ const useAuth = () => {
   //log out function
   const SIGNOUT = async (e: React.MouseEvent) => {
     if (window.confirm("¿Are you sure that you are loging out?")) {
-      const response = await Api.GET_SIGNOUT();
-      setAuthState({ ...AuthState, authinticated: false });
+      try {
+        await Axios.get(APP_CONSTANTS.TRACk_API_URI_AUTH);
+        setAuthState({ ...AuthState, authinticated: false });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -53,14 +51,15 @@ const useAuth = () => {
   const SIGNIN_SUBMIT = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await Axios.post(AUTH_API_URI, credentials);
+      const response = await Axios.post(APP_CONSTANTS.TRACk_API_URI_AUTH, credentials);
       response.data.success
         ? setAuthState({ ...AuthState, authinticated: true })
         : setAuthState({ authError: "incorrect user or password", authinticated: false });
     } catch (error) {
-      const err = error as AxiosError<IAPIResponse>;
-      setAuthState({ ...AuthState, authError: err.response!!.data.message });
-      console.error(err);
+      const err = error as AxiosError<{ message: string }>;
+      err.isAxiosError
+        ? setAuthState({ ...AuthState, authError: "usuario o contraseña incorrectos" })
+        : console.error(err);
     }
   };
 

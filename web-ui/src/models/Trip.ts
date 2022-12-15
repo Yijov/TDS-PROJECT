@@ -1,48 +1,41 @@
 import Position from "./Position";
 import TripDTO from "./TripDTO";
 
-class Trip{
-    private TripId:number
-    private RouteId:number
-    private From:string
-    private To:string
-    private Position: Position= {tripId:0, lat:"", lon:""}
-    
-    constructor(dto:TripDTO){
-        this.TripId=dto.tripId;
-        this.RouteId=dto.routeId;
-        this.From=dto.from;
-        this.To=dto.to;
-    }
-    get Id(){
-        return this.TripId;
-    }
+class Trip {
+  private TripId: number;
+  private RouteId: number;
+  private From: string;
+  private To: string;
+  private Position: Position = { tripId: 0, lat: 0, lon: 0 };
 
-    get position(){
-        return this.Position;
-    }
+  constructor(dto: TripDTO) {
+    this.TripId = dto.tripId;
+    this.RouteId = dto.routeId;
+    this.From = dto.from;
+    this.To = dto.to;
+  }
+  get Id() {
+    return this.TripId;
+  }
 
+  get position() {
+    return this.Position;
+  }
 
-    getTrackInfo=()=>{
-        let returnable=
-        {
-            id: this.TripId,
-            route:this.RouteId,
-            position: this.Position,
-            to:this.To,
-            from:this.From,
-        }
-        return returnable;
-    }
-        
+  getTrackInfo = () => {
+    let returnable = {
+      id: this.TripId,
+      route: this.RouteId,
+      position: this.Position,
+      to: this.To,
+      from: this.From,
+    };
+    return returnable;
+  };
 
-    updatePosition= async (position:Position)=>
-    {
-        this.Position=position;
-    }
-
-    
-
+  updatePosition = async (position: Position) => {
+    this.Position = position;
+  };
 }
 
 export default Trip;

@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use("/api/v1", router);
 
 io.on(EVENTS.CONNECTION, (socket: Socket) => {
-  console.log(socket.id);
+  console.log(socket.id + "has conected");
 
   socket.on(EVENTS.PING, (data: string) => {
     io.to(socket.id).emit(EVENTS.PONG, data);
@@ -50,7 +50,7 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
       TrackingCache.StartTrip(tripDto);
       io.to(socket.id).emit(EVENTS.TRIP_START_SUCCESS);
     } catch (error) {
-      io.to(socket.id).emit(EVENTS.TRIP_START_FAILED);
+      io.to(socket.id).emit(EVENTS.TRIP_START_FAILED, error);
     }
   });
 
@@ -60,7 +60,7 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
       TrackingCache.EndTrip(tripId);
       io.to(socket.id).emit(EVENTS.TRIP_END_SUCCESS);
     } catch (error) {
-      io.to(socket.id).emit(EVENTS.TRIP_END_FAIL);
+      io.to(socket.id).emit(EVENTS.TRIP_END_FAIL, error);
     }
   });
 
@@ -71,12 +71,12 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
       let response = await TrackingCache.Track();
       socket.broadcast.emit(EVENTS.UPDATE, response);
     } catch (error) {
-      io.to(socket.id).emit(EVENTS.UPDATE_POSITION_FAILED);
+      io.to(socket.id).emit(EVENTS.UPDATE_POSITION_FAILED, error);
     }
   });
 
   socket.on(EVENTS.DISCONNECT, () => {
-    console.log("user disconnected");
+    console.log("user " + socket.id + " disconnected");
   });
 });
 

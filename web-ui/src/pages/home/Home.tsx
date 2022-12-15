@@ -12,9 +12,10 @@ const Home = () => {
   return (
     <div className="home page container">
       <Navigation soutFunction={SIGNOUT} />
+      <button onClick={HandlePing}>PING</button>
       <div className="row">
-        <Map />
-        <UserSearchPannel />
+        <Map trips={socketState.trips} />
+        <UserSearchPannel trips={socketState.trips} />
       </div>
     </div>
   );
