@@ -16,9 +16,11 @@ class Tracker {
     let indexToDelete = this.trips.findIndex((x) => x.Id == tripId);
     this.trips.splice(indexToDelete, 1);
   }
+
   updateTripPosition = async (position: Position) => {
-    let indexToUpdate = await this.trips.find((x) => x.Id === position.tripId);
-    await indexToUpdate?.updatePosition(position);
+    await this.trips.forEach((elem) => {
+      if (elem.Id === position.tripId) elem.updatePosition(position);
+    });
   };
 
   Track = async () => {
