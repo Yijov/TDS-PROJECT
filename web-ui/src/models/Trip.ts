@@ -33,7 +33,7 @@ class Trip {
     return returnable;
   };
 
-  updatePosition = async (position: Position) => {
+  updatePosition = (position: Position) => {
     this.Position = position;
   };
 }

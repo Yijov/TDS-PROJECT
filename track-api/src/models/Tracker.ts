@@ -7,7 +7,7 @@ class Tracker {
 
   constructor() {}
 
-  StartTrip = async (trip: TripDTO) => {
+  StartTrip = (trip: TripDTO) => {
     let creted = new Trip(trip);
     this.trips.push(creted);
   };
@@ -17,14 +17,13 @@ class Tracker {
     this.trips.splice(indexToDelete, 1);
   }
 
-  updateTripPosition = async (position: Position) => {
-    await this.trips.forEach((elem) => {
-      if (elem.Id === position.tripId) elem.updatePosition(position);
-    });
+  updateTripPosition = (position: Position) => {
+    let indexToDelete = this.trips.findIndex((x) => x.Id == position.tripId);
+    this.trips[indexToDelete]?.updatePosition(position);
   };
 
-  Track = async () => {
-    return await this.trips.map((t) => t.getTrackInfo());
+  Track = () => {
+    return this.trips.map((t) => t.getTrackInfo());
   };
 }
 

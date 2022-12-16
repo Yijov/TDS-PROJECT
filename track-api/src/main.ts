@@ -41,7 +41,7 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
   console.log(socket.id + " has conected");
   io.to(socket.id).emit(EVENTS.UPDATE, TrackingCache.Track());
 
-  socket.on(EVENTS.GET_STATE, async () => {
+  socket.on(EVENTS.GET_STATE, () => {
     let response = TrackingCache.Track();
     io.to(socket.id).emit(EVENTS.UPDATE, response);
   });
@@ -50,12 +50,12 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
     io.to(socket.id).emit(EVENTS.PONG, data);
   });
 
-  socket.on(EVENTS.TRIP_START, async (tripDto: TripDTO) => {
+  socket.on(EVENTS.TRIP_START, (tripDto: TripDTO) => {
     //add  tripp dto in memory
     try {
-      await TrackingCache.StartTrip(tripDto);
+      TrackingCache.StartTrip(tripDto);
       io.to(socket.id).emit(EVENTS.TRIP_START_SUCCESS);
-      let response = await TrackingCache.Track();
+      let response = TrackingCache.Track();
       socket.broadcast.emit(EVENTS.UPDATE, response);
     } catch (error) {
       io.to(socket.id).emit(EVENTS.TRIP_START_FAILED, error);
@@ -72,11 +72,11 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
     }
   });
 
-  socket.on(EVENTS.UPDATE_POSITION, async (positionDto: Position) => {
+  socket.on(EVENTS.UPDATE_POSITION, (positionDto: Position) => {
     //updaste position of the trip while cleaning cache
     try {
       TrackingCache.updateTripPosition(positionDto);
-      let response = await TrackingCache.Track();
+      let response = TrackingCache.Track();
       socket.broadcast.emit(EVENTS.UPDATE, response);
     } catch (error) {
       io.to(socket.id).emit(EVENTS.UPDATE_POSITION_FAILED, error);

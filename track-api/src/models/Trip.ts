@@ -24,7 +24,7 @@ class Trip {
     return this.Position;
   }
 
-  getTrackInfo = async () => {
+  getTrackInfo = () => {
     let returnable = {
       id: this.TripId,
       route: this.RouteId,
@@ -36,7 +36,7 @@ class Trip {
     return returnable;
   };
 
-  updatePosition = async (position: Position) => {
+  updatePosition = (position: Position) => {
     this.Position = position;
   };
 }
