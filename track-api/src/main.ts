@@ -53,7 +53,7 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
   socket.on(EVENTS.TRIP_START, async (tripDto: TripDTO) => {
     //add  tripp dto in memory
     try {
-      TrackingCache.StartTrip(tripDto);
+      await TrackingCache.StartTrip(tripDto);
       io.to(socket.id).emit(EVENTS.TRIP_START_SUCCESS);
       let response = await TrackingCache.Track();
       socket.broadcast.emit(EVENTS.UPDATE, response);
