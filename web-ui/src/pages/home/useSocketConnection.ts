@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Trip from "../../models/Trip";
-import TripDTO from "../../models/TripDTO";
 import EVENTS from "../../constants/events";
 import socket from "../../connections/WSocket";
+import ITripUpdateResponse from "../../models/ITripUpdateResponse";
 
 export interface ISocketState {
-  trips: TripDTO[];
+  trips: ITripUpdateResponse[];
   error: string;
 }
 const useSocketConnection = () => {
   const [socketState, setSocketState] = useState<ISocketState>({ trips: [], error: "" });
-  const handleUpdate = (response: TripDTO[]) => {
+  const handleUpdate = (response: ITripUpdateResponse[]) => {
+    console.log(response);
+
     setSocketState({ ...socketState, trips: response });
   };
 
@@ -22,12 +23,12 @@ const useSocketConnection = () => {
     setSocketState({ ...socketState, error });
   };
 
-  const HandlePing = () => {
-    socket.emit(EVENTS.PING, "Conected");
+  const HandlePing = (data: any = "conected") => {
+    socket.emit(EVENTS.PING, data);
   };
 
   useEffect(() => {
-    socket.on(EVENTS.UPDATE, (reponse: TripDTO[]) => handleUpdate(reponse));
+    socket.on(EVENTS.UPDATE, (reponse: ITripUpdateResponse[]) => handleUpdate(reponse));
     socket.on(EVENTS.TRIP_END_FAIL, () => HandSetError("Operación fallida, porfavor intente mas tarde"));
     socket.on(EVENTS.PONG, (data: string) => console.log(data));
     return function cleanup() {
@@ -37,6 +38,6 @@ const useSocketConnection = () => {
     };
   }, []);
 
-  return { socketState, HandleEndTrip, HandlePing, HandSetError };
+  return { STATE: socketState, API: { HandleEndTrip, HandlePing, HandSetError } };
 };
 export default useSocketConnection;

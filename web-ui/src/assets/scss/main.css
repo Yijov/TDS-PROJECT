@@ -83,7 +83,7 @@ body {
 }
 
 .userSearchPannel {
-  height: 91vh;
+  min-height: 60vh;
 }
 
 .top-nav {

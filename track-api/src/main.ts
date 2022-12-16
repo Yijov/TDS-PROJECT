@@ -46,7 +46,7 @@ io.on(EVENTS.CONNECTION, (socket: Socket) => {
     io.to(socket.id).emit(EVENTS.UPDATE, response);
   });
 
-  socket.on(EVENTS.PING, (data: string) => {
+  socket.on(EVENTS.PING, (data: string | number | Object) => {
     io.to(socket.id).emit(EVENTS.PONG, data);
   });
 

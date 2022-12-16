@@ -1,48 +1,44 @@
 import Position from "./Position";
 import TripDTO from "./TripDTO";
 
-class Trip{
-    private TripId:number
-    private RouteId:number
-    private From:string
-    private To:string
-    private Position: Position= {tripId:0, lat:"", lon:""}
-    
-    constructor(dto:TripDTO){
-        this.TripId=dto.tripId;
-        this.RouteId=dto.routeId;
-        this.From=dto.from;
-        this.To=dto.to;
-    }
-    get Id(){
-        return this.TripId;
-    }
+class Trip {
+  private TripId: number = 306;
+  private RouteId: number = 1;
+  private From: string = "ITLA";
+  private To: string = "27 de Feb";
+  private Position: Position = { tripId: 0, lat: "", lon: "" };
+  private startTime: string;
 
-    get position(){
-        return this.Position;
-    }
+  constructor(dto: TripDTO) {
+    this.TripId = dto.tripId;
+    this.RouteId = dto.routeId;
+    this.From = dto.from;
+    this.To = dto.to;
+    this.startTime = new Date().toLocaleTimeString();
+  }
+  get Id() {
+    return this.TripId;
+  }
 
+  get position() {
+    return this.Position;
+  }
 
-    getTrackInfo=()=>{
-        let returnable=
-        {
-            id: this.TripId,
-            route:this.RouteId,
-            position: this.Position,
-            to:this.To,
-            from:this.From,
-        }
-        return returnable;
-    }
-        
+  getTrackInfo = () => {
+    let returnable = {
+      id: this.TripId,
+      route: this.RouteId,
+      position: this.Position,
+      to: this.To,
+      from: this.From,
+      time: this.startTime,
+    };
+    return returnable;
+  };
 
-    updatePosition= async (position:Position)=>
-    {
-        this.Position=position;
-    }
-
-    
-
+  updatePosition = async (position: Position) => {
+    this.Position = position;
+  };
 }
 
 export default Trip;

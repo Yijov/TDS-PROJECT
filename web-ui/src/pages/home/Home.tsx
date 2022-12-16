@@ -6,16 +6,15 @@ import useSocketConnection from "./useSocketConnection";
 import useAuth from "./useAuth";
 
 const Home = () => {
-  const { socketState, HandlePing } = useSocketConnection();
+  const { STATE, API } = useSocketConnection();
   const { SIGNOUT } = useAuth();
 
   return (
     <div className="home page container">
       <Navigation soutFunction={SIGNOUT} />
-      <button onClick={HandlePing}>PING</button>
       <div className="row">
-        <Map trips={socketState.trips} />
-        <UserSearchPannel trips={socketState.trips} />
+        <Map trips={STATE.trips} />
+        <UserSearchPannel trips={STATE.trips} socketAPI={API} />
       </div>
     </div>
   );
