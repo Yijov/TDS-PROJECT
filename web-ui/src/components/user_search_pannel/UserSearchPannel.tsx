@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Position from "../../models/Position";
+import ActiveTripsList from "./components/ActiveTripsList";
 import ITripUpdateResponse from "../../models/ITripUpdateResponse";
 
 interface ISocetAPI {
@@ -16,6 +16,12 @@ const UserSearchPannel: React.FC<{ trips: ITripUpdateResponse[]; socketAPI: ISoc
     socketAPI.HandlePing(panelInputs.pingValue || undefined);
   };
 
+  const handleEndTripSend = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!panelInputs.enTripIdValue) return;
+    socketAPI.HandleEndTrip(panelInputs.enTripIdValue);
+  };
+
   const HANDLE_INPUT = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -23,7 +29,7 @@ const UserSearchPannel: React.FC<{ trips: ITripUpdateResponse[]; socketAPI: ISoc
   };
   return (
     <div className="userSearchPannel card m-1 mt-4 bg-light p-4 col">
-      <form className="form-inline border row mb-5" onSubmit={handlePingSend}>
+      <form className="form-inline border row mb-5 p-2" onSubmit={handlePingSend}>
         <label htmlFor="pingValue">
           <strong>PING</strong>
         </label>
@@ -38,13 +44,13 @@ const UserSearchPannel: React.FC<{ trips: ITripUpdateResponse[]; socketAPI: ISoc
           onChange={HANDLE_INPUT}
         />
         <button className="btn btn-success btn-sm mt-2" type="submit">
-          Send Ping
+          ENVIAR
         </button>
       </form>
 
-      <form className="form-inline row" onSubmit={handlePingSend}>
+      <form className="form-inline row p-2" onSubmit={handleEndTripSend}>
         <label htmlFor="enTripIdValue">
-          <strong>END TRIP</strong>
+          <strong>TERMINAR VIAJE</strong>
         </label>
         <input
           name="enTripIdValue"
@@ -53,14 +59,15 @@ const UserSearchPannel: React.FC<{ trips: ITripUpdateResponse[]; socketAPI: ISoc
           placeholder="Trip ID"
           aria-label="Search"
           autoComplete="off"
-          value={panelInputs.pingValue}
+          value={panelInputs.enTripIdValue}
           onChange={HANDLE_INPUT}
           required
         />
         <button className="btn btn-success btn-sm mt-2" type="submit">
-          Send
+          ENVIAR
         </button>
       </form>
+      <ActiveTripsList trips={trips} />
     </div>
   );
 };

@@ -15,7 +15,7 @@ const Map: React.FC<{ trips: ITripUpdateResponse[] }> = ({ trips }) => {
 
   return (
     // Important! Always set the container height explicitly
-    <div style={{ height: "65vh", width: "75%", marginTop: "2rem" }}>
+    <div style={{ height: "80vh", width: "75%", marginTop: "2rem" }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_API_KEY!! }}
         defaultCenter={defaultProps.center}
