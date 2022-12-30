@@ -37,7 +37,7 @@ const UserSearchPannel: React.FC<{ trips: ITripUpdateResponse[]; socketAPI: ISoc
           name="pingValue"
           className="form-control"
           type="search"
-          placeholder="Any value dato ej: juam"
+          placeholder="valor ej: Juan"
           aria-label="Search"
           autoComplete="off"
           value={panelInputs.pingValue}
